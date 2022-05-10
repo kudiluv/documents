@@ -10,7 +10,6 @@ export class UploadService {
   constructor(@Storage('documents-diplom') private storageServise: IStorage) {}
 
   async upload(file: FileDto): Promise<UploadedFileDto> {
-    console.log(file);
     const res = await this.storageServise.uploadBuffer({
       originalName: file.originalName,
       buffer: Buffer.from(file.buffer, 'base64'),

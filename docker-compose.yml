@@ -11,7 +11,7 @@ services:
       - 3000:3000
     command: sh -c 
       "npm install &&
-       npm install -g nest &&
+       npm install -g @nestjs/cli &&
        npm run start:dev"
   documents_main:
     image: node:16
@@ -22,7 +22,21 @@ services:
       - 3001:3001
     command: sh -c 
       "npm install &&
-       npm install -g nest &&
+       npm install -g @nestjs/cli &&
        npm run start:dev"
+  video_consumer:
+    build: ./video-consumer
+    env_file:
+      - ./video-consumer/.env
+    volumes:
+      - ./video-consumer/nest-service:/app
+    working_dir: /app
+    command: sh -c 
+      "
+       python3.9 /python_script/setup.py &
+       npm install &&
+       npm install -g @nestjs/cli &&
+       npm run start:dev
+       "
   redis:
     image: redis
