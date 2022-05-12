@@ -1,6 +1,7 @@
+import { Processor } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 
-@Injectable()
+@Processor('video')
 export class AppService {
   getHello(): string {
     return 'Hello World!';

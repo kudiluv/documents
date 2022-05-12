@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common';
 
 export const bucketNames: string[] = [];
 
-export function Storage(bucketName: string) {
+export function InjectStorage(bucketName: string) {
   if (!bucketNames.includes(bucketName)) {
     bucketNames.push(bucketName);
   }

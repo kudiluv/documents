@@ -5,7 +5,6 @@ import { StorageServices } from './types/storage.types';
 import { IStorage } from './types/storage.interface';
 
 function storageFactory(config: StorageConfig, bucketName: string) {
-  console.log(config);
   return new StorageServices[config.type](config, bucketName);
 }
 
