@@ -1,19 +1,12 @@
-import { InjectQueue, Processor } from '@nestjs/bull';
-import { Injectable } from '@nestjs/common';
-import { Task } from './types/task';
-import { Queue } from 'bull';
+import { OnGlobalQueueCompleted, Processor } from '@nestjs/bull';
+import { SearchService } from 'src/search/search.service';
 
-@Processor()
+@Processor('video')
 export class QueuesVideoHandlerService {
-  constructor(@InjectQueue('video') private queue: Queue) {}
+  constructor(private searchService: SearchService) {}
 
-  add(task: Task) {
-    this.queue.add(task, {
-      jobId: task.fileName,
-    });
-  }
-
-  getInfo() {
-    // this.queue.
+  @OnGlobalQueueCompleted()
+  getInfo(jobId: string, result: string) {
+    this.searchService.updateText(jobId, result);
   }
 }

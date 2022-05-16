@@ -4,6 +4,7 @@ import { Task } from './types/task';
 import { Queue } from 'bull';
 import { QueueInfo } from './types/queue.info';
 import { IQueueService } from './types/queue.service';
+import { UploadedFileDto } from 'src/upload/dto/uploaded.file.dto';
 
 @Injectable()
 export class QueuesVideoService implements IQueueService {
@@ -11,9 +12,13 @@ export class QueuesVideoService implements IQueueService {
 
   name = 'video';
 
-  add(task: Task) {
-    this.queue.add(task, {
-      jobId: task.fileName,
+  mimetypeTrigger(value: string) {
+    return value.includes('video');
+  }
+
+  addTask(uploadedFile: UploadedFileDto) {
+    this.queue.add(uploadedFile, {
+      jobId: uploadedFile.name,
     });
   }
 }

@@ -4,7 +4,7 @@ import { StorageModule } from './storage/storage.module';
 import { UploadModule } from './upload/upload.module';
 import { QueuesModule } from './queues/queues.module';
 import { SearchModule } from './search/search.module';
-import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -30,6 +30,7 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
     }),
     QueuesModule,
     SearchModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],

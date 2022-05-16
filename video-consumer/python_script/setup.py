@@ -6,7 +6,6 @@ import cleaner
 
 
 def extract(data: str):
-    print(data)
     audio_path = audio_extractor.from_video(data)
     audios = audio_spliter.split(audio_path)
     text = extract_text_from_wav.extract(audios)

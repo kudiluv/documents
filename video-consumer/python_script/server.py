@@ -1,6 +1,7 @@
 from aifc import Error
 import socket
 from typing import Callable
+import json
 
 def listen(callback: Callable[[str], str]):
     sock = socket.socket()
@@ -11,9 +12,15 @@ def listen(callback: Callable[[str], str]):
         conn, addr = sock.accept()
         try:
             data = conn.recv(1024).decode()
-            result = callback(data).encode()
-            conn.send(result)
+            jsonData = json.loads(data.split("#")[1])
+            result = callback(jsonData["data"]).lower();
+            response = json.dumps({
+                "id": jsonData["id"],
+                "data": result,
+            }, separators=(',', ':'))
+            response = str(len(response)) + "#" + response
+            conn.sendall(response.encode())
+            
         except Error as err:
             conn.send(err)
-            pass
         conn.close()

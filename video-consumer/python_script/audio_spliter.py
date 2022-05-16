@@ -18,7 +18,7 @@ def split(filePath: str, limiter: int = 30) -> List[str]:
 
     result: List[str] = []
     for idx, audio in enumerate(audio_splits):
-        new_file = f"./tmp/{idx}_audi_file.wav"
+        new_file = path.join(path.abspath(path.dirname(__file__)), f"tmp/{idx}_audi_file.wav")
         audio.export(new_file, 'wav')
         result.append(new_file)
 

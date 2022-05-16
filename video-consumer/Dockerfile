@@ -8,7 +8,9 @@ RUN bash -c "\
      ./configure --enable-optimizations &&\
      make -j 2 &&\
      make altinstall"
-COPY ./python_script /python_script
-RUN bash -c "python3.9 -m pip install -r /python_script/requirments.txt"
 RUN bash -c "apt install -y ffmpeg"
+COPY ./python_script/requirments.txt /python_script/requirments.txt
+COPY ./python_script/extract_text_from_wav.py /python_script/extract_text_from_wav.py
+RUN bash -c "python3.9 -m pip install -r /python_script/requirments.txt"
 RUN bash -c "python3.9 /python_script/extract_text_from_wav.py"
+COPY ./python_script /python_script

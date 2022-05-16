@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MemoryStoredFile } from 'nestjs-form-data';
+import { UploadedFileDto } from './dto/uploaded.file.dto';
 import { QueuesService } from 'src/queues/queues.service';
 import { SearchService } from 'src/search/search.service';
 import { InjectStorage } from 'src/storage/storage.decorator';
@@ -13,23 +14,27 @@ export class UploadService {
     private searchService: SearchService,
   ) {}
 
-  async upload(file: MemoryStoredFile) {
+  async upload(file: MemoryStoredFile): Promise<UploadedFileDto> {
     const res = await this.storageServise.uploadBuffer({
       buffer: file.buffer,
       encoding: 'base64',
       originalName: file.originalName,
     });
-    this.queuesService.process({
-      fileName: res.name,
-      filePath: res.location,
+
+    const uploadedFile = {
+      originalName: file.originalName,
+      name: res.name,
+      link: res.location,
       mimetype: file.mimetype,
-    });
+    };
+
+    this.queuesService.process(uploadedFile);
     await this.searchService.addToIndex({
       id: res.name,
       link: res.location,
       mimetype: file.mimetype,
       originalName: file.originalName,
     });
-    return res;
+    return uploadedFile;
   }
 }
