@@ -10,8 +10,8 @@ import { StorageModule } from './storage/storage.module';
       s3config: {
         endpoint: 'https://storage.yandexcloud.net',
         credentials: {
-          accessKeyId: 'YCAJETBq7VC4AJXPc9lVhdAxg',
-          secretAccessKey: 'YCNr6-1r-CahpbErNNX_lk6LUDbRshybfHZ__N3f',
+          accessKeyId: 'YCAJE2ouJ1KxeAEhJsApFg1JL',
+          secretAccessKey: 'YCP7T8X7rV6CCsPWxjo8GJEZVXhgBOfr1t0Qm8fA',
         },
       },
       localOptions: {

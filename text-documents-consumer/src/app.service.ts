@@ -9,7 +9,7 @@ import * as fs from 'fs';
 @Processor('documents')
 export class AppService {
   constructor(
-    @InjectStorage('documents-diplom') private storageService: IStorage,
+    @InjectStorage('documents-diploma') private storageService: IStorage,
   ) {}
 
   @Process({ concurrency: 4 })

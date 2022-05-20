@@ -14,8 +14,6 @@ services:
        npm run start:dev"
   video_consumer:
     build: ./video-consumer
-    # env_file:
-    #   - ./video-consumer/.env
     volumes:
       - ./video-consumer/nest-service:/app
     working_dir: /app

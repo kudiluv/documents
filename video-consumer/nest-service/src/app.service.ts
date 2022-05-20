@@ -9,7 +9,7 @@ import { IStorage } from './storage/types/storage.interface';
 @Processor('video')
 export class AppService {
   constructor(
-    @InjectStorage('documents-diplom') private storageService: IStorage,
+    @InjectStorage('documents-diploma') private storageService: IStorage,
     @Inject('PROCESS_VIDEO_SERVICE') private client: ClientProxy,
   ) {}
 
