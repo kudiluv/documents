@@ -9,7 +9,7 @@ import { IStorage } from 'src/storage/types/storage.interface';
 @Injectable()
 export class UploadService {
   constructor(
-    @InjectStorage('documents-diplom') private storageServise: IStorage,
+    @InjectStorage('documents-diploma') private storageServise: IStorage,
     private queuesService: QueuesService,
     private searchService: SearchService,
   ) {}

@@ -10,6 +10,7 @@ export class UploadController {
   @Post()
   @FormDataRequest()
   async addFile(@Body() fileDto: FileDto) {
+    fileDto.file.originalName = fileDto.fileName;
     return await this.uploadService.upload(fileDto.file);
   }
 }

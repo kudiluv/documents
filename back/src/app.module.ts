@@ -5,6 +5,9 @@ import { UploadModule } from './upload/upload.module';
 import { QueuesModule } from './queues/queues.module';
 import { SearchModule } from './search/search.module';
 import { CategoryModule } from './category/category.module';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { BasicAuthGuard } from './auth/basic-auth.guard';
 
 @Module({
   imports: [
@@ -14,8 +17,8 @@ import { CategoryModule } from './category/category.module';
       s3config: {
         endpoint: 'https://storage.yandexcloud.net',
         credentials: {
-          accessKeyId: 'YCAJETBq7VC4AJXPc9lVhdAxg',
-          secretAccessKey: 'YCNr6-1r-CahpbErNNX_lk6LUDbRshybfHZ__N3f',
+          accessKeyId: 'YCAJE2ouJ1KxeAEhJsApFg1JL',
+          secretAccessKey: 'YCP7T8X7rV6CCsPWxjo8GJEZVXhgBOfr1t0Qm8fA',
         },
       },
       localOptions: {
@@ -31,8 +34,14 @@ import { CategoryModule } from './category/category.module';
     QueuesModule,
     SearchModule,
     CategoryModule,
+    AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: BasicAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
