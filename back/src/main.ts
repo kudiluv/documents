@@ -7,8 +7,8 @@ async function bootstrap() {
   const nestOptions: NestApplicationOptions = {};
   if (process.env.SSH_KEY && process.env.SSH_CERT) {
     nestOptions.httpsOptions = {
-      key: fs.readFileSync(process.env.SSH_KEY),
-      cert: fs.readFileSync(process.env.SSK_CERT),
+      key: fs.readFileSync(process.env.SSL_KEY),
+      cert: fs.readFileSync(process.env.SSL_CERT),
     };
   }
   const app = await NestFactory.create(AppModule, nestOptions);
