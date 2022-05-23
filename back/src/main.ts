@@ -5,7 +5,7 @@ import * as fs from 'fs';
 
 async function bootstrap() {
   const nestOptions: NestApplicationOptions = {};
-  if (process.env.SSH_KEY && process.env.SSH_CERT) {
+  if (process.env.SSL_KEY && process.env.SSL_CERT) {
     nestOptions.httpsOptions = {
       key: fs.readFileSync(process.env.SSL_KEY),
       cert: fs.readFileSync(process.env.SSL_CERT),
