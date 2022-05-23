@@ -16,7 +16,8 @@ export class AppService {
   async reduceTask(job: Job<any>) {
     const filePath = await this.storageService.downloadFile(job.data.name);
     const respose = await reader.getText(filePath);
+    const cleanedText = respose.replace(/(\r\n|\n|\r|\t)/gm, ' ');
     console.log('success', respose);
-    return respose;
+    return cleanedText;
   }
 }
