@@ -9,4 +9,11 @@ export class AuthController {
   async login() {
     return true;
   }
+
+  @Post('test')
+  async test() {
+    return new Promise((resolve) =>
+      setTimeout(() => resolve('success'), 20000),
+    );
+  }
 }

@@ -12,10 +12,9 @@ export const MustParams: MustParams = {
     },
   }),
   textQuery: (str: string) => ({
-    match: {
-      text: {
-        query: str,
-      },
+    query_string: {
+      query: str,
+      default_field: 'text',
     },
   }),
 };

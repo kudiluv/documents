@@ -8,6 +8,7 @@ import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { BasicAuthGuard } from './auth/basic-auth.guard';
+import { RemoveModule } from './remove/remove.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { BasicAuthGuard } from './auth/basic-auth.guard';
     SearchModule,
     CategoryModule,
     AuthModule,
+    RemoveModule,
   ],
   controllers: [],
   providers: [

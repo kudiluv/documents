@@ -1,5 +1,8 @@
-import { QueryDslQueryContainer } from '@elastic/elasticsearch/lib/api/types';
-import { Injectable } from '@nestjs/common';
+import {
+  QueryDslQueryContainer,
+  SearchTotalHits,
+} from '@elastic/elasticsearch/lib/api/types';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { CategoryService } from 'src/category/category.service';
 import { FileForIndex } from './dto/file.for.index.dto';
@@ -17,7 +20,7 @@ export class SearchService {
   ) {}
 
   indexName = 'files';
-  pageLimit = 50;
+  pageLimit = 20;
 
   async search(searchParams: SearchParamsDto): Promise<SearchResponseDto> {
     const params = Object.entries(searchParams);
@@ -39,6 +42,7 @@ export class SearchService {
       index: this.indexName,
       _source: ['link', 'type', 'originalName', 'uploadedDate'],
       size: this.pageLimit,
+      from: (searchParams.page - 1) * this.pageLimit,
       query: {
         bool: {
           must,
@@ -48,7 +52,10 @@ export class SearchService {
     });
 
     return {
-      pages: Math.ceil((result.hits.total as any).value / this.pageLimit),
+      pages: Math.ceil(
+        (result.hits.total as SearchTotalHits).value / this.pageLimit,
+      ),
+      countItems: (result.hits.total as SearchTotalHits).value,
       items: result.hits.hits.map(({ _id, _source: file }) => ({
         id: _id,
         link: file.link,
@@ -56,6 +63,14 @@ export class SearchService {
         type: file.type,
       })),
     };
+  }
+
+  async findById(id: string): Promise<IndexedFile> {
+    const response = await this.elasticSearchService.get<IndexedFile>({
+      index: this.indexName,
+      id,
+    });
+    return response._source;
   }
 
   async addToIndex(fileInfo: FileForIndex) {
@@ -70,6 +85,14 @@ export class SearchService {
         originalName: fileInfo.originalName,
         uploadedDate: new Date(),
       },
+    });
+  }
+
+  async removeFromIndex(id: string) {
+    await this.findById(id);
+    const result = await this.elasticSearchService.delete({
+      index: this.indexName,
+      id,
     });
   }
 

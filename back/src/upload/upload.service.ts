@@ -14,15 +14,15 @@ export class UploadService {
     private searchService: SearchService,
   ) {}
 
-  async upload(file: MemoryStoredFile): Promise<UploadedFileDto> {
+  async upload(file: Express.Multer.File): Promise<UploadedFileDto> {
     const res = await this.storageServise.uploadBuffer({
       buffer: file.buffer,
       encoding: 'base64',
-      originalName: file.originalName,
+      originalName: file.originalname,
     });
 
     const uploadedFile = {
-      originalName: file.originalName,
+      originalName: file.originalname,
       name: res.name,
       link: res.location,
       mimetype: file.mimetype,
@@ -33,7 +33,7 @@ export class UploadService {
       id: res.name,
       link: res.location,
       mimetype: file.mimetype,
-      originalName: file.originalName,
+      originalName: file.originalname,
     });
     return uploadedFile;
   }

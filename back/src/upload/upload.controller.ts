@@ -1,16 +1,20 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { FormDataRequest } from 'nestjs-form-data';
-import { FileDto } from './dto/file.dto';
+import {
+  Controller,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from './upload.service';
+import { ValidationFilePipe } from './validation.file.pipe';
 
 @Controller('upload')
 export class UploadController {
   constructor(private uploadService: UploadService) {}
 
   @Post()
-  @FormDataRequest()
-  async addFile(@Body() fileDto: FileDto) {
-    fileDto.file.originalName = fileDto.fileName;
-    return await this.uploadService.upload(fileDto.file);
+  @UseInterceptors(FileInterceptor('file'))
+  async addFile(@UploadedFile(ValidationFilePipe) file: Express.Multer.File) {
+    return await this.uploadService.upload(file);
   }
 }

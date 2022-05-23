@@ -38,6 +38,18 @@ export class QueuesService {
     return [(page - 1) * limit, page * limit - 1];
   }
 
+  async deleteTasksAllById(taskId: string) {
+    const promises = this.queueServices.map(({ queue }) =>
+      queue.getJob(taskId),
+    );
+    const jobs = await Promise.all(promises);
+    for (const job of jobs) {
+      if (job) {
+        await job.remove();
+      }
+    }
+  }
+
   async getDetails(queueName: string, page = 1): Promise<QueueDatailDto> {
     const queueService = this.queueServices.find(
       (service) => service.name === queueName,
