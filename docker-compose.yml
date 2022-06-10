@@ -27,8 +27,10 @@ services:
     volumes:
       - ./text-documents-consumer:/app
     working_dir: /app
-    command: sh -c "npm install &&
+    command: sh -c "apt update &&
+       apt install poppler-utils antiword -y &&
+       npm install &&
        npm install -g @nestjs/cli &&
-       npm run start"
+       npm run start:dev"
   redis:
     image: redis

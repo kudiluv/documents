@@ -11,17 +11,16 @@ export class QueuesDocumentsService implements IQueueService {
   name = 'documents';
 
   mimetypeTrigger(value: string) {
-    return (
-      value === 'text/plain' ||
-      value === 'application/msword' ||
-      value ===
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-      value === 'application/vnd.ms-excel' ||
-      value ===
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
-      value === 'text/csv' ||
-      value === 'application/pdf'
-    );
+    const result = [
+      /text/,
+      /application\/msword/,
+      /application\/vnd.openxmlformats-officedocument.wordprocessingml.document/,
+      /application\/vnd.ms-excel/,
+      /application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet/,
+      /application\/pdf/,
+      /application\/vnd.openxmlformats-officedocument.presentationml.presentation/
+    ].findIndex((mimeRegExp) => mimeRegExp.test(value))
+    return result !== -1 && true || false;
   }
 
   addTask(uploadedFile: UploadedFileDto) {
