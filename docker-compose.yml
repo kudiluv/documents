@@ -12,6 +12,8 @@ services:
     command: sh -c "npm install &&
        npm install -g @nestjs/cli &&
        npm run start:dev"
+    networks:
+      - main_network
   video_consumer:
     build: ./video-consumer
     volumes:
@@ -22,6 +24,8 @@ services:
        npm install &&
        npm install -g @nestjs/cli &&
        npm run start"
+    networks:
+      - main_network
   text_documents_consumer:
     image: node:16
     volumes:
@@ -32,5 +36,12 @@ services:
        npm install &&
        npm install -g @nestjs/cli &&
        npm run start:dev"
+    networks:
+      - main_network
   redis:
     image: redis
+    networks:
+        - main_network
+networks:
+  main_network:
+    external: true
